@@ -13,9 +13,9 @@
       return new $model();
     }
 
-    // Load view
+    // Load views
     public function view($view, $data = []){
-      // Check for view file
+      // Check for views file
       if(file_exists('../app/views/' . $view . '.php')){
         require_once '../app/views/' . $view . '.php';
       } else {

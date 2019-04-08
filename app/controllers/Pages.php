@@ -5,9 +5,9 @@
     }
     
     public function index(){
-      if(isLoggedIn()){
-        redirect('posts');
-      }
+//      if(isLoggedIn()){
+//        redirect('posts');
+//      }
 
       $data = [
         'title' => 'SharePosts',
