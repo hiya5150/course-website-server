@@ -1,21 +1,19 @@
 <?php
 
 
-class Grades
+class Grades extends Controller
 {
-    public function __construct(){
+    private $currentModel;
+    public function __construct()
+    {
+        $this->currentModel = $this->model('students', 'Grade');
+    }
+
+    public function viewGrades(){
 
     }
 
-    public function view(){
-
-    }
-
-    public function announcement(){
-
-    }
-
-    public function grades(){
+    public function viewGrade(){
 
     }
 }

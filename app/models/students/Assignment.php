@@ -7,5 +7,7 @@ class Assignment
 
     }
 
+    public function getAssignments(){
 
+    }
 }

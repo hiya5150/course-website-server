@@ -6,8 +6,8 @@
    */
   class Core {
     protected $currentDirectory = 'main';
-    protected $currentController = 'Pages';
-    protected $currentMethod = 'index';
+    protected $currentController = 'Home';
+    protected $currentMethod = 'loadAnnouncements';
     protected $params = [];
 
     public function __construct(){

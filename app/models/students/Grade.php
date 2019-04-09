@@ -11,7 +11,7 @@ class Grade
 
     }
 
-    public function getGradesById(){
+    public function getGradesByStudentId(){
 
     }
 
