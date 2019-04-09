@@ -1,8 +1,9 @@
 <?php
 //This is the announcements controller, this page will recieve the input and if there are no errors/everything was filled out correctly then it will send the information to the announcements model
 class Announcements extends Controller {
+    private $currentModel;
     public function __construct(){
-        $this->currentModel = $this->model('teachers/announcement');
+        $this->currentModel = $this->model('teachers', 'announcement');
     }
     public function index(){
     }
@@ -13,21 +14,18 @@ class Announcements extends Controller {
         $data = [
             'announcements' => $announcements
         ];
-        header('Content-type: application/json');
         echo json_encode($data);
     }
 
     public function createAnnouncement(){
             //the data right now is dummy data, it will later be replaced with actual data submitted from the front end.
             $data = [
-                'ann_title' => 'Second Announcement',
-                'ann_body' => 'This is the second announcement',
+                'ann_title' => 'third Announcement',
+                'ann_body' => 'This is the third announcement',
                 'teacher_id' => 1
             ];
             if ($this->currentModel->createAnnouncement($data)) {
-                echo 'success';
-            } else {
-                echo 'something went wrong';
+                echo json_encode($data);
             }
     }
 
@@ -36,10 +34,7 @@ class Announcements extends Controller {
             'ann_id' => 1
         ];
         if($this->currentModel->deleteAnnouncement($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
 
@@ -50,10 +45,7 @@ class Announcements extends Controller {
             'ann_body' => 'this is the edited announcement'
         ];
         if($this->currentModel->editAnnouncement($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
 

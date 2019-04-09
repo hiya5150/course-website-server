@@ -1,7 +1,8 @@
 <?php
 class Assignments extends Controller {
+    private  $currentModel;
     public function __construct(){
-        $this->currentModel = $this->model('teachers/assignment');
+        $this->currentModel = $this->model('teachers', 'assignment');
     }
     public function index(){
     }
@@ -12,6 +13,7 @@ class Assignments extends Controller {
         $data = [
             'assignments'=>$assignments
         ];
+        echo json_encode($data);
     }
 
     public function createAssignment(){
@@ -24,10 +26,7 @@ class Assignments extends Controller {
         ];
 
         if($this->currentModel->createAssignment($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
 
@@ -37,10 +36,7 @@ class Assignments extends Controller {
         ];
 
         if($this->currentModel->deleteAssignment($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
 
@@ -53,10 +49,7 @@ class Assignments extends Controller {
             'asn_grade'=>'30'
         ];
         if($this->currentModel->editAssignment($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
 }
