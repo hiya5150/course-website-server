@@ -7,7 +7,7 @@ class assignment {
     }
 
     public function viewAssignments(){
-        $this->db->query('SELECT *, teachers.teacher_name FROM assignments INNER JOIN teachers ON teachers.teacher_id = assignments.teacher_id ORDER BY asn_date_created DESC');
+        $this->db->query('SELECT assignments.*, teachers.teacher_name FROM assignments INNER JOIN teachers ON teachers.teacher_id = assignments.teacher_id ORDER BY asn_date_created DESC');
         $results = $this->db->resultSet();
 
         return $results;

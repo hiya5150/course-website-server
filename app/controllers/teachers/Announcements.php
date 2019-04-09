@@ -5,10 +5,9 @@ class Announcements extends Controller {
     public function __construct(){
         $this->currentModel = $this->model('teachers', 'announcement');
     }
-    public function index(){
-    }
 
-    public function viewAnnouncements(){
+    public function viewAnnouncements()
+    {
         $announcements = $this->currentModel->viewAnnouncements();
 
         $data = [
@@ -26,6 +25,7 @@ class Announcements extends Controller {
             ];
             if ($this->currentModel->createAnnouncement($data)) {
                 echo json_encode($data);
+
             }
     }
 
