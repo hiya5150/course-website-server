@@ -8,7 +8,7 @@ class announcement {
     }
 
     public function viewAnnouncements(){
-        $this->db->query('SELECT *, teachers.teacher_id FROM announcements INNER JOIN teachers on teachers.teacher_id = announcements.teacher_id ORDER BY announcements.ann_date_created DESC');
+        $this->db->query('SELECT *, teachers.teacher_name FROM announcements INNER JOIN teachers on teachers.teacher_id = announcements.teacher_id ORDER BY announcements.ann_date_created DESC');
         $results = $this->db->resultSet();
 
         return $results;
@@ -45,6 +45,13 @@ class announcement {
         $this->db->bind(':ann_id', $data['ann_id']);
         $this->db->bind(':ann_title', $data['ann_title']);
         $this->db->bind(':ann_body', $data['ann_body']);
+
+        if($this->db->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
 
     }
 }
