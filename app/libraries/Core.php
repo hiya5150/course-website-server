@@ -7,7 +7,7 @@
   class Core {
     protected $currentDirectory = 'main';
     protected $currentController = 'Home';
-    protected $currentMethod = 'loadAnnouncements';
+    protected $currentMethod = 'notFound';
     protected $params = [];
 
     public function __construct(){
@@ -39,6 +39,10 @@
           $this->currentMethod = $url[2];
           // Unset 1 index
           unset($url[2]);
+        }else{
+            $this->currentDirectory = 'main';
+            $this->currentController = 'Home';
+            require_once '../app/controllers/'. $this->currentDirectory .'/'. $this->currentController . '.php';
         }
       }
 

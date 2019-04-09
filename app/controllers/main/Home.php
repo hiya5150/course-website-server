@@ -8,8 +8,11 @@
 
       public function loadAnnouncements()
       {
+
+      }
+      public function notFound(){
           $data = [
-            "feed" => 'my feed'
+              "error" => '404 - not found'
           ];
           echo json_encode($data);
       }
