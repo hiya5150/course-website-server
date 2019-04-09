@@ -1,35 +1,40 @@
 <?php
 class Assignments extends Controller {
+    private  $currentModel;
     public function __construct(){
-        $this->currentModel = $this->model('teachers/assignment');
-    }
-    public function index(){
+        $this->currentModel = $this->model('teachers', 'assignment');
     }
 
-    public function viewAssignments(){
-        $assignments = $this->currentModel->viewAssignments();
+    public function viewAssignments()
+    {
+            $assignments = $this->currentModel->viewAssignments();
 
-        $data = [
-            'assignments'=>$assignments
-        ];
+            $data = [
+                'assignments' => $assignments
+            ];
+            echo json_encode($data);
+
     }
 
     public function createAssignment(){
+        $_POST['asnTitle']='hello';
+        $_POST['asnBody'] = 'This is the trial with hardcoded posted data';
+        $_POST['asnDueDate']='1/1/2019';
+        $_POST['asnGrade']='39';
+        $_POST['teacherID']=1;
         $data = [
-            'asn_title'=> 'Second Assignment',
-            'asn_body'=> 'This is the second Assignment body',
-            'asn_due_date'=> '1/1/2019',
-            'asn_grade'=> '39',
-            'teacher_id'=>1
+            'asn_title'=> $_POST['asnTitle'],
+            'asn_body'=> $_POST['asnBody'],
+            'asn_due_date'=> $_POST['asnDueDate'],
+            'asn_grade'=> $_POST['asnGrade'],
+            'teacher_id'=>$_POST['teacherID']
         ];
 
         if($this->currentModel->createAssignment($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
+
 
     public function deleteAssignment() {
         $data = [
@@ -37,10 +42,7 @@ class Assignments extends Controller {
         ];
 
         if($this->currentModel->deleteAssignment($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
 
@@ -53,10 +55,7 @@ class Assignments extends Controller {
             'asn_grade'=>'30'
         ];
         if($this->currentModel->editAssignment($data)){
-            echo 'success';
-        }
-        else{
-            echo 'something went wrong';
+            echo json_encode($data);
         }
     }
 }
