@@ -8,7 +8,7 @@ class Register extends Controller
     {
         $this->currentModel = $this->model('main', 'SignUp');
     }
-
+    // register new teacher
     public function teacherRegister(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -18,8 +18,9 @@ class Register extends Controller
                 'username' => trim($_POST['username']),
                 'password' => password_hash(trim($_POST['password']), PASSWORD_DEFAULT)
             ];
-
+            // checks if username exists, has to be unique
             if (!$this->currentModel->findUserByUsername($data['username'], 'teacher')){
+                // registers to database, returns true on success or false on failure
                 if ($this->currentModel->registerTeacher($data)) {
                     echo json_encode(['success' => true]);
                 } else {
@@ -30,6 +31,7 @@ class Register extends Controller
             }
         }
     }
+    // register new student
     public function studentRegister(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -39,8 +41,9 @@ class Register extends Controller
                 'username' => trim($_POST['username']),
                 'password' => password_hash(trim($_POST['password']), PASSWORD_DEFAULT)
             ];
-
+            // checks if username exists, has to be unique
             if (!$this->currentModel->findUserByUsername($data['username'], 'student')){
+                // registers to database, returns true on success or false on failure
                 if ($this->currentModel->registerStudent($data)) {
                     echo json_encode(['success' => true]);
                 } else {

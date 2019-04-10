@@ -13,9 +13,10 @@ class SignIn
     public function loginTeacher($username, $password){
         $this->db->query('SELECT * FROM teachers WHERE username = :username');
         $this->db->bind(':username', $username);
-
+        // tries to get info from db
         if ($row = $this->db->single()){
             $hashed_password = $row->password;
+            // verifies password with encrypted pass from database
             if(password_verify($password, $hashed_password)){
                 return $row;
             } else {
@@ -30,9 +31,10 @@ class SignIn
     public function loginStudent($username, $password){
         $this->db->query('SELECT * FROM students WHERE username = :username');
         $this->db->bind(':username', $username);
-
+        // tries to get info from db
         if ($row = $this->db->single()){
             $hashed_password = $row->password;
+            // verifies password with encrypted pass from database
             if(password_verify($password, $hashed_password)){
                 return $row;
             } else {
@@ -42,9 +44,11 @@ class SignIn
             return false;
         }
     }
-
+    // call this function if user successfully logged in
+    // @params $id = student_id or teacher_id, $type = 'teacher' or 'student', $ip = $_SERVER['REMOTE_ADDR'] (ip http address request came from)
     public function setToken($id, $type, $ip){
         try{
+            // try creating random token else throw error
             if($token = random_bytes(32)){
                 $this->db->query('INSERT INTO auth(token, ip, expiry, student_id, teachers_id) VALUES (:token, :ip, NOW() + INTERVAL 1 HOUR, :studentID, :teacherID)');
                 $this->db->bind(':token', $token);
@@ -58,6 +62,7 @@ class SignIn
                         $this->db->bind(':studentID', $id);
                         $this->db->bind(':teacherID', null);
                 }
+                // inserts token with expiry and ip to database, return token on success or false on failure
                 if ($this->db->execute()){
                     return $token;
                 }else{

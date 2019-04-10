@@ -11,14 +11,17 @@ class Controller {
         // Instantiate model
         return new $model();
     }
-
+    // @param token from http request header ($GLOBALS['headers'])
+    // @param ip from address requested from ($_SERVER['REMOTE_ADDR'])
     public function verifyToken($token, $ip){
         $db = new Database();
 
         $db->query('SELECT * FROM auth WHERE token = :token AND expiry > now()');
         $db->bind(':token', $token);
-
+        // check database if token exists and not expired
         if ($res = $db->single()){
+            // checks if token matches to ip address
+            // returns student or teachers id if verified else returns false
             if($res->token === $token && $res->ip === $ip){
                 return ($res->student_id !== null) ? $res->student_id : $res->teachers_id;
             }else{
