@@ -9,7 +9,7 @@ class SignIn
         $this->db = new Database;
     }
 
-    // Login User
+    // Login teacher
     public function loginTeacher($username, $password){
         $this->db->query('SELECT * FROM teachers WHERE username = :username');
         $this->db->bind(':username', $username);
@@ -26,7 +26,7 @@ class SignIn
         }
     }
 
-    // Login User
+    // Login Student
     public function loginStudent($username, $password){
         $this->db->query('SELECT * FROM students WHERE username = :username');
         $this->db->bind(':username', $username);

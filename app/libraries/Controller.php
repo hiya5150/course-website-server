@@ -1,6 +1,4 @@
-
 <?php
-$headers = apache_request_headers();
 /*
  * Base Controller
  * Loads the models and views
@@ -14,17 +12,19 @@ class Controller {
         return new $model();
     }
 
-    public function verifyAuth($token, $ip){
+    public function verifyToken($token, $ip){
         $db = new Database();
 
         $db->query('SELECT * FROM auth WHERE token = :token AND expiry > now()');
         $db->bind(':token', $token);
-        $res = $db->single();
 
-        if($res->token === $token && $res->ip === $ip){
-            $GLOBALS['id'] = ($res->student_id !== null) ? $res->student_id : $res->teachers_id;
-            return true;
-        }else{
+        if ($res = $db->single()){
+            if($res->token === $token && $res->ip === $ip){
+                return ($res->student_id !== null) ? $res->student_id : $res->teachers_id;
+            }else{
+                return false;
+            }
+        } else {
             return false;
         }
     }

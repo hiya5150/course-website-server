@@ -11,9 +11,6 @@
 
       }
       public function notFound(){
-          $data = [
-              "error" => '404 - not found'
-          ];
-          echo json_encode($data);
+          echo json_encode(["error" => '404 - not found']);
       }
   }

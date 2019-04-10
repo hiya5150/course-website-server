@@ -41,7 +41,7 @@ class Login extends Controller
                 'password' => trim($_POST['password'])
             ];
 
-            if ($user = $this->currentModel->loginTeacher($data['username'], $data['password'])){
+            if ($user = $this->currentModel->loginStudent($data['username'], $data['password'])){
                 if($token = $this->currentModel->setToken($user->student_id, 'student', $_SERVER['REMOTE_ADDR'])){
                     echo json_encode(['token' => $token]);
                 } else {
