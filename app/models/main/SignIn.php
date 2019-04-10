@@ -11,11 +11,11 @@ class SignIn
 
     // Login teacher
     public function loginTeacher($username, $password){
-        $this->db->query('SELECT * FROM teachers WHERE username = :username');
+        $this->db->query('SELECT * FROM teachers WHERE teacher_username = :username');
         $this->db->bind(':username', $username);
         // tries to get info from db
         if ($row = $this->db->single()){
-            $hashed_password = $row->password;
+            $hashed_password = $row->teacher_password;
             // verifies password with encrypted pass from database
             if(password_verify($password, $hashed_password)){
                 return $row;
@@ -29,11 +29,11 @@ class SignIn
 
     // Login Student
     public function loginStudent($username, $password){
-        $this->db->query('SELECT * FROM students WHERE username = :username');
+        $this->db->query('SELECT * FROM students WHERE student_username = :username');
         $this->db->bind(':username', $username);
         // tries to get info from db
         if ($row = $this->db->single()){
-            $hashed_password = $row->password;
+            $hashed_password = $row->student_password;
             // verifies password with encrypted pass from database
             if(password_verify($password, $hashed_password)){
                 return $row;
@@ -49,8 +49,8 @@ class SignIn
     public function setToken($id, $type, $ip){
         try{
             // try creating random token else throw error
-            if($token = random_bytes(32)){
-                $this->db->query('INSERT INTO auth(token, ip, expiry, student_id, teachers_id) VALUES (:token, :ip, NOW() + INTERVAL 1 HOUR, :studentID, :teacherID)');
+            if($token = bin2hex(random_bytes(32))){
+                $this->db->query('INSERT INTO auth(token, ip, expiry, student_id, teacher_id) VALUES (:token, :ip, NOW() + INTERVAL 1 HOUR, :studentID, :teacherID)');
                 $this->db->bind(':token', $token);
                 $this->db->bind(':ip', $ip);
                 switch ($type){
