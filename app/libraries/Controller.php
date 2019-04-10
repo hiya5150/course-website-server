@@ -23,7 +23,7 @@ class Controller {
             // checks if token matches to ip address
             // returns student or teachers id if verified else returns false
             if($res->token === $token && $res->ip === $ip){
-                return ($res->student_id !== null) ? $res->student_id : $res->teachers_id;
+                return ($res->student_id > 0) ? $res->student_id : $res->teacher_id;
             }else{
                 return false;
             }

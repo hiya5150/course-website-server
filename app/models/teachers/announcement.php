@@ -1,5 +1,5 @@
 <?php
-// This is the announcement model, it communicates with the database to view, add, delete or edit an announcement/s in the announcements table
+// This is the announcement model, it communicates with the database to view, add, delete or edit an announcement/s in the announcements table, this model is loaded in the controllers/teachers/Announcements page(code to be able to do this located in libraries/Controller)
 class announcement {
     private $db;
 
@@ -29,7 +29,8 @@ class announcement {
     }
 
     public function deleteAnnouncement($data){
-        $this->db->query('DELETE FROM announcements WHERE ann_id = :ann_id');
+        $this->db->query('DELETE FROM announcements WHERE teacher_id = :teacher_id && ann_id = :ann_id');
+        $this->db->bind(':teacher_id', $data['teacher_id']);
         $this->db->bind(':ann_id', $data['ann_id']);
 
         if($this->db->execute()){
@@ -41,7 +42,8 @@ class announcement {
     }
 
     public function editAnnouncement($data){
-        $this->db->query('UPDATE announcements SET ann_title = :ann_title, ann_body = :ann_body, ann_date_created = current_timestamp WHERE ann_id = :ann_id');
+        $this->db->query('UPDATE announcements SET ann_title = :ann_title, ann_body = :ann_body, ann_date_created = current_timestamp WHERE teacher_id = :teacher_id && ann_id = :ann_id');
+        $this->db->bind(':teacher_id', $data['teacher_id']);
         $this->db->bind(':ann_id', $data['ann_id']);
         $this->db->bind(':ann_title', $data['ann_title']);
         $this->db->bind(':ann_body', $data['ann_body']);
