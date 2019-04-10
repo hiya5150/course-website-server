@@ -32,8 +32,5 @@ class Grade
     }
 
 
-    public function getGradeByTeacher()
-    {
 
-    }
 }
