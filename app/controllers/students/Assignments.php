@@ -10,22 +10,26 @@ class Assignments extends Controller
     }
 
 
-    public function submitAssignment($teacherID, $studentID, $asnID)
+    public function submitAssignment($teacherID, $asnID)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = [
-                'teacher_id' => $teacherID,
-                'student_id' => $studentID,
-                'asn_id' => $asnID,
-                'submission' => trim($_POST['submission']),
-                'success' => true
-            ];
+        if(isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    $data = [
+                        'teacher_id' => $teacherID,
+                        'student_id' => $id,
+                        'asn_id' => $asnID,
+                        'submission' => trim($_POST['submission']),
+                        'success' => true
+                    ];
 
-            if ($this->currentModel->submit($data)) {
-                echo json_encode($data);
-            } else {
-                echo json_encode(['success' => false]);
+                    if ($this->currentModel->submit($data)) {
+                        echo json_encode($data);
+                    } else {
+                        echo json_encode(['success' => false]);
+                    }
+                }
             }
         }
     }

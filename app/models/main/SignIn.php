@@ -45,7 +45,9 @@ class SignIn
         }
     }
     // call this function if user successfully logged in
-    // @params $id = student_id or teacher_id, $type = 'teacher' or 'student', $ip = $_SERVER['REMOTE_ADDR'] (ip http address request came from)
+    // @params $id = student_id or teacher_id
+    // @param $type = 'teacher' or 'student'
+    // @param $ip = $_SERVER['REMOTE_ADDR'] (ip http address request came from)
     public function setToken($id, $type, $ip){
         try{
             // try creating random token else throw error
@@ -53,6 +55,7 @@ class SignIn
                 $this->db->query('INSERT INTO auth(token, ip, expiry, student_id, teacher_id) VALUES (:token, :ip, NOW() + INTERVAL 1 HOUR, :studentID, :teacherID)');
                 $this->db->bind(':token', $token);
                 $this->db->bind(':ip', $ip);
+                // checks if teacher or student to assign right foreign key
                 switch ($type){
                     case 'teacher':
                         $this->db->bind(':studentID', null);

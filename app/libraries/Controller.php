@@ -32,6 +32,7 @@ class Controller {
             return false;
         }
     }
+    // cleans expired tokens
     private function cleanTokens(){
         $db = new Database();
         $db->query('DELETE FROM auth WHERE  expiry < now()');
