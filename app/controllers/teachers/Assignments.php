@@ -17,18 +17,13 @@ class Assignments extends Controller {
 
     }
 
-    public function createAssignment(){
-        $_POST['asnTitle']='hello';
-        $_POST['asnBody'] = 'This is the trial with hardcoded posted data';
-        $_POST['asnDueDate']='1/1/2019';
-        $_POST['asnGrade']='39';
-        $_POST['teacherID']=1;
+    public function createAssignment($teacherID){
         $data = [
-            'asn_title'=> $_POST['asnTitle'],
-            'asn_body'=> $_POST['asnBody'],
-            'asn_due_date'=> $_POST['asnDueDate'],
-            'asn_grade'=> $_POST['asnGrade'],
-            'teacher_id'=>$_POST['teacherID']
+            'asn_title'=> 'hello',
+            'asn_body'=> 'im running out of things to write',
+            'asn_due_date'=> '1/1/2019',
+            'asn_grade'=> '39',
+            'teacher_id'=>$teacherID
         ];
 
         if($this->currentModel->createAssignment($data)){
@@ -37,10 +32,10 @@ class Assignments extends Controller {
     }
 
 
-    public function deleteAssignment() {
+    public function deleteAssignment($teacherID, $asnID) {
         $data = [
-            'teacher_id'=>1,
-            'asn_id'=>2
+            'teacher_id'=>$teacherID,
+            'asn_id'=>$asnID
         ];
 
         if($this->currentModel->deleteAssignment($data)){
@@ -48,12 +43,12 @@ class Assignments extends Controller {
         }
     }
 
-    public function editAssignment() {
+    public function editAssignment($teacherID, $asnID) {
         $data = [
-            'teacher_id'=>1,
-            'asn_id'=>1,
-            'asn_title'=> 'edited assignment title',
-            'asn_body'=>'edited assignment body',
+            'teacher_id'=>$teacherID,
+            'asn_id'=>$asnID,
+            'asn_title'=> 'why not',
+            'asn_body'=>'im running out of things to type',
             'asn_due_date'=>'2/2/2019',
             'asn_grade'=>'30'
         ];

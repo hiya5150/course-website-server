@@ -43,7 +43,7 @@ class assignment {
     }
 
     public function editAssignment($data){
-        $this->db->query('UPDATE assignments SET asn_title = :asn_title, ass_body = :asn_body, asn_date_created = current_timestamp,  asn_due_date = :asn_due_date, asn_grade = :asn_grade WHERE teacher_id = :teacher_id && asn_id = :asn_id');
+        $this->db->query('UPDATE assignments SET asn_title = :asn_title, asn_body = :asn_body, asn_date_created = current_timestamp,  asn_due_date = :asn_due_date, asn_grade = :asn_grade WHERE teacher_id = :teacher_id && asn_id = :asn_id');
         $this->db->bind(':teacher_id', $data['teacher_id']);
         $this->db->bind(':asn_id', $data['asn_id']);
         $this->db->bind(':asn_title', $data['asn_title']);

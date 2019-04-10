@@ -5,10 +5,10 @@ class Grades extends Controller {
         $this->currentModel = $this->model('teachers', 'grade');
     }
 
-    public function viewOneSubmissionOneStudent(){
+    public function viewOneSubmissionOneStudent($studentID, $asnID){
         $data = [
-            'student_id'=>1,
-            'asn_id'=>1
+            'student_id'=>$studentID,
+            'asn_id'=>$asnID
         ];
         $submission = $this->currentModel->viewOneSubmissionOneStudent($data);
         if($submission){
@@ -19,9 +19,9 @@ class Grades extends Controller {
         }
     }
 
-    public function viewAllSubmissionsOneStudent(){
+    public function viewAllSubmissionsOneStudent($studentID){
         $data = [
-            'student_id'=>2
+            'student_id'=>$studentID
         ];
         $submission = $this->currentModel->viewAllSubmissionsOneStudent($data);
         if($submission){
@@ -32,9 +32,9 @@ class Grades extends Controller {
         }
     }
 
-    public function viewAllSubmissionsOneAssignment(){
+    public function viewAllSubmissionsOneAssignment($asnID){
         $data = [
-            'asn_id'=>1
+            'asn_id'=>$asnID
         ];
         $submission = $this->currentModel->viewAllSubmissionsOneAssignment($data);
         if($submission){
@@ -45,11 +45,11 @@ class Grades extends Controller {
         }
     }
 
-    public function editGrade(){
+    public function editGrade($teacherID, $studentID, $asnID){
         $data = [
-            'teacher_id'=>1,
-            'student_id'=>1,
-            'asn_id'=>1,
+            'teacher_id'=>$teacherID,
+            'student_id'=>$studentID,
+            'asn_id'=>$asnID,
             'grade'=> 38
         ];
         if($this->currentModel->editGrade($data)){

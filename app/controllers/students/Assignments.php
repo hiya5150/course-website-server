@@ -10,11 +10,11 @@ class Assignments extends Controller
     }
 
 
-    public function submitAssignment(){
+    public function submitAssignment($teacherID, $studentID, $asnID){
         $data = [
-            'teacher_id'=>1,
-            'student_id'=>1,
-            'asn_id'=>1,
+            'teacher_id'=>$teacherID,
+            'student_id'=>$studentID,
+            'asn_id'=>$asnID,
             'submission'=>'this is my submission for my assignment'
         ];
 
@@ -32,9 +32,9 @@ class Assignments extends Controller
         echo json_encode($data);
     }
 
-    public function viewOneAssignment(){
+    public function viewOneAssignment($asnID){
         $data = [
-            'asn_id'=>1
+            'asn_id'=>$asnID
         ];
         if($assignment = $this->currentModel->getOneAssignment($data)){
             $data = [
