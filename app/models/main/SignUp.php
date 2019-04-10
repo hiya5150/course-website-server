@@ -11,7 +11,7 @@ class SignUp
 
     // Register user
     public function registerTeacher($data){
-        $this->db->query('INSERT INTO teachers (name, username, password) VALUES(:name, :username, :password)');
+        $this->db->query('INSERT INTO teachers (teacher_name, teacher_username, teacher_password) VALUES(:name, :username, :password)');
         // Bind values
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':username', $data['username']);
@@ -27,7 +27,7 @@ class SignUp
 
     // Register user
     public function registerStudent($data){
-        $this->db->query('INSERT INTO students (name, email, password) VALUES(:name, :email, :password)');
+        $this->db->query('INSERT INTO students (student_name, student_username, student_password) VALUES(:name, :username, :password)');
         // Bind values
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':username', $data['username']);
@@ -45,10 +45,10 @@ class SignUp
     public function findUserByUsername($username, $type){
         switch ($type){
             case 'teacher':
-                $sql = 'SELECT * FROM teachers WHERE username = :username';
+                $sql = 'SELECT * FROM teachers WHERE teacher_username = :username';
                 break;
             case 'student';
-                $sql = 'SELECT * FROM students WHERE username = :username';
+                $sql = 'SELECT * FROM students WHERE student_username = :username';
                 break;
             default:
                 $sql = '';
@@ -57,6 +57,7 @@ class SignUp
         // Bind value
         $this->db->bind(':username', $username);
         // Check row
+        $this->db->execute();
         if($this->db->rowCount() > 0){
             return true;
         } else {
