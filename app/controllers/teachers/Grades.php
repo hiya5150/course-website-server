@@ -58,19 +58,22 @@ class Grades extends Controller {
         }
     }
 
-    public function editGrade($teacherID, $studentID, $asnID){
-        $data = [
-            'teacher_id'=>$teacherID,
-            'student_id'=>$studentID,
-            'asn_id'=>$asnID,
-            'grade'=> 38,
-            'success'=>true
-        ];
-        if($this->currentModel->editGrade($data)){
-            echo json_encode($data);
-        }
-        else{
-            echo json_encode(['success'=>false]);
+    public function editGrade($teacherID, $studentID, $asnID)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'teacher_id' => $teacherID,
+                'student_id' => $studentID,
+                'asn_id' => $asnID,
+                'grade' => trim($_POST['grade']),
+                'success' => true
+            ];
+            if ($this->currentModel->editGrade($data)) {
+                echo json_encode($data);
+            } else {
+                echo json_encode(['success' => false]);
+            }
         }
     }
 }

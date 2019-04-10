@@ -21,20 +21,23 @@ class Announcements extends Controller {
         }
     }
 
-    public function createAnnouncement($teacherID){
-            //the data right now is dummy data, it will later be replaced with actual data submitted from the front end.
+    public function createAnnouncement($teacherID)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
             $data = [
-                'ann_title' => 'fourth Announcement',
-                'ann_body' => 'This is the fourth announcement',
                 'teacher_id' => $teacherID,
-                'success'=>true
+                'ann_title' => trim($_POST['annTitle']),
+                'ann_body' => trim($_POST['annBody']),
+                'success' => true
             ];
             if ($this->currentModel->createAnnouncement($data)) {
                 echo json_encode($data);
+            } else {
+                echo json_encode(['success' => false]);
             }
-            else{
-                echo json_encode(['success'=>false]);
-            }
+        }
     }
 
     public function deleteAnnouncement($teacherID, $annID) {
@@ -51,19 +54,22 @@ class Announcements extends Controller {
         }
     }
 
-    public function editAnnouncement($teacherID, $annID) {
-        $data = [
-            'teacher_id'=>$teacherID,
-            'ann_id' => $annID,
-            'ann_title' => 'edited announcement',
-            'ann_body' => 'this is the edited announcement',
-            'success'=>true
-        ];
-        if($this->currentModel->editAnnouncement($data)){
-            echo json_encode($data);
-        }
-        else{
-            echo json_encode(['success'=>false]);
+    public function editAnnouncement($teacherID, $annID)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'teacher_id' => $teacherID,
+                'ann_id' => $annID,
+                'ann_title' => trim($_POST['annTitle']),
+                'ann_body' => trim($_POST['annBody']),
+                'success' => true
+            ];
+            if ($this->currentModel->editAnnouncement($data)) {
+                echo json_encode($data);
+            } else {
+                echo json_encode(['success' => false]);
+            }
         }
     }
 
