@@ -7,8 +7,8 @@ class Grades extends Controller {
 
     public function viewOneSubmissionOneStudent(){
         $data = [
-            'asn_id'=>1,
-            'student_id'=>1
+            'student_id'=>1,
+            'asn_id'=>1
         ];
         $submission = $this->currentModel->viewOneSubmissionOneStudent($data);
         if($submission){
@@ -47,9 +47,10 @@ class Grades extends Controller {
 
     public function editGrade(){
         $data = [
-            'grade'=> 38,
+            'teacher_id'=>1,
+            'student_id'=>1,
             'asn_id'=>1,
-            'student_id'=>1
+            'grade'=> 38
         ];
         if($this->currentModel->editGrade($data)){
             echo json_encode($data);

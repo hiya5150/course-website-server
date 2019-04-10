@@ -30,7 +30,8 @@ class assignment {
     }
 
     public function deleteAssignment($data){
-        $this->db->query('DELETE FROM assignments WHERE asn_id = :asn_id');
+        $this->db->query('DELETE FROM assignments WHERE teacher_id = :teacher_id && asn_id = :asn_id');
+        $this->db->bind(':teacher_id', $data['teacher_id']);
         $this->db->bind(':asn_id', $data['asn_id']);
 
         if($this->db->execute()){
@@ -42,13 +43,14 @@ class assignment {
     }
 
     public function editAssignment($data){
-        $this->db->query('UPDATE assignments SET asn_title = :asn_title, ass_body = :asn_body, asn_date_created = current_timestamp,  asn_due_date = :asn_due_date, asn_grade = :asn_grade WHERE asn_id = :asn_id');
-
+        $this->db->query('UPDATE assignments SET asn_title = :asn_title, ass_body = :asn_body, asn_date_created = current_timestamp,  asn_due_date = :asn_due_date, asn_grade = :asn_grade WHERE teacher_id = :teacher_id && asn_id = :asn_id');
+        $this->db->bind(':teacher_id', $data['teacher_id']);
+        $this->db->bind(':asn_id', $data['asn_id']);
         $this->db->bind(':asn_title', $data['asn_title']);
         $this->db->bind(':asn_body', $data['asn_body']);
         $this->db->bind(':asn_due_date', $data['asn_due_date']);
         $this->db->bind(':asn_grade', $data['asn_grade']);
-        $this->db->bind(':asn_id', $data['asn_id']);
+
 
         if($this->db->execute()){
             return true;

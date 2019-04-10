@@ -11,6 +11,7 @@ class Assignments extends Controller {
 
             $data = [
                 'assignments' => $assignments
+
             ];
             echo json_encode($data);
 
@@ -38,6 +39,7 @@ class Assignments extends Controller {
 
     public function deleteAssignment() {
         $data = [
+            'teacher_id'=>1,
             'asn_id'=>2
         ];
 
@@ -48,6 +50,7 @@ class Assignments extends Controller {
 
     public function editAssignment() {
         $data = [
+            'teacher_id'=>1,
             'asn_id'=>1,
             'asn_title'=> 'edited assignment title',
             'asn_body'=>'edited assignment body',

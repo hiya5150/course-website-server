@@ -31,6 +31,7 @@ class Announcements extends Controller {
 
     public function deleteAnnouncement() {
         $data = [
+            'teacher_id'=>1,
             'ann_id' => 1
         ];
         if($this->currentModel->deleteAnnouncement($data)){
@@ -40,6 +41,7 @@ class Announcements extends Controller {
 
     public function editAnnouncement() {
         $data = [
+            'teacher_id'=>1,
             'ann_id' => 1,
             'ann_title' => 'edited announcement',
             'ann_body' => 'this is the edited announcement'
