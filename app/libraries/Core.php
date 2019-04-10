@@ -16,7 +16,7 @@
       $url = $this->getUrl();
 
       // Look in controllers for first value
-      if(file_exists('../app/controllers/'. $url[0] .'/'. ucwords($url[1]). '.php')){
+      if(file_exists('../app/controllers/'. $url[0] .'/'. ucfirst($url[1]). '.php')){
         // If exists, set as directory
         $this->currentDirectory = $url[0];
         // If exists, set as controller
