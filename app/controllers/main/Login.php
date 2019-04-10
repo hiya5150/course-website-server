@@ -1,6 +1,5 @@
 <?php
 
-
 class Login extends Controller
 {
     private $currentModel;
@@ -50,7 +49,7 @@ class Login extends Controller
                     echo json_encode(['error' => "login failed"]);
                 }
             } else {
-                echo json_encode(['error' => "login failed"]);
+                echo json_encode(['error' => "login denied"]);
             }
         }else{
             echo json_encode(['error' => "denied"]);
