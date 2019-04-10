@@ -1,6 +1,6 @@
 <?php
 
-
+// This is the students/Grade model, it communicates with the database to view grade/s and submission/s in the grades table. this model is loaded in the controllers/students/Grades page(code to be able to do this located in libraries/Controller)
 class Grade
 {
     private $db;

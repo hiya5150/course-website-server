@@ -3,8 +3,9 @@
 // 1.view one specific grade for one specific student for one assignment
 //2. view all grades for one specific student all assignments
 //3. view all grades for one specific assignment all students
-
 //it will also allow the teacher to add/edit the grade of each student
+
+// This is the grade model, it communicates with the database to view(submissions), add, or edit grades in the assignments table. this model is loaded in the controllers/teachers/Grades page(code to be able to do this located in libraries/Controller)
 class grade {
     private $db;
 

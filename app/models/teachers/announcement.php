@@ -1,5 +1,5 @@
 <?php
-// This is the announcement model, it communicates with the database to view, add, delete or edit an announcement/s in the announcements table
+// This is the announcement model, it communicates with the database to view, add, delete or edit an announcement/s in the announcements table, this model is loaded in the controllers/teachers/Announcements page(code to be able to do this located in libraries/Controller)
 class announcement {
     private $db;
 

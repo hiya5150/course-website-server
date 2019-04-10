@@ -1,4 +1,5 @@
 <?php
+// This is the teachers/assignment model, it communicates with the database to view, add, delete or edit an assignment/s in the assignments table. this model is loaded in the controllers/teachers/Assignments page(code to be able to do this located in libraries/Controller)
 class assignment {
     private $db;
 

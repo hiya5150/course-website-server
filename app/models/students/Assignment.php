@@ -1,5 +1,5 @@
 <?php
-
+// This is the students/Assignment model, it communicates with the database to view an assignment/s in the assignments table and submit the students assignment in the grades table. this model is loaded in the controllers/students/Assignments page(code to be able to do this located in libraries/Controller)
 
 class Assignment
 {
