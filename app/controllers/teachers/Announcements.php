@@ -8,16 +8,23 @@ class Announcements extends Controller {
 
     public function viewAnnouncements()
     {
-        $announcements = $this->currentModel->viewAnnouncements();
-        if ($announcements) {
-            $data = [
-                'announcements' => $announcements,
-                'success'=>true
-            ];
-            echo json_encode($data);
-        }
-        else{
-            echo json_encode(['success'=>false]);
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                $announcements = $this->currentModel->viewAnnouncements();
+                if ($announcements) {
+                    $data = [
+                        'announcements' => $announcements,
+                        'success' => true
+                    ];
+                    echo json_encode($data);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else{
+                echo json_encode(['error'=>'Invalid token']);
+            }
+        } else {
+            echo json_encode(['error' => "undefined token"]);
         }
     }
 
@@ -39,6 +46,8 @@ class Announcements extends Controller {
                     } else {
                         echo json_encode(['success' => false]);
                     }
+                } else{
+                    echo json_encode(['error'=>'Invalid input type']);
                 }
             } else{
                 echo json_encode(['error'=>'Invalid token']);
@@ -48,36 +57,54 @@ class Announcements extends Controller {
         }
     }
 
-    public function deleteAnnouncement($teacherID, $annID) {
-        $data = [
-            'teacher_id'=>$teacherID,
-            'ann_id' => $annID
-        ];
-        if($this->currentModel->deleteAnnouncement($data)){
-            //this should send back deleted
-            echo json_encode(['success'=>true]);
-        }
-        else{
-            echo json_encode(['success'=>false]);
+    public function deleteAnnouncement($annID)
+    {
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                $data = [
+                    'teacher_id' => $id,
+                    'ann_id' => $annID
+                ];
+                if ($this->currentModel->deleteAnnouncement($data)) {
+                    //this should send back deleted
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else{
+                echo json_encode(['error'=>'Invalid token']);
+            }
+        } else {
+            echo json_encode(['error' => "undefined token"]);
         }
     }
 
-    public function editAnnouncement($teacherID, $annID)
+    public function editAnnouncement($annID)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = [
-                'teacher_id' => $teacherID,
-                'ann_id' => $annID,
-                'ann_title' => trim($_POST['annTitle']),
-                'ann_body' => trim($_POST['annBody']),
-                'success' => true
-            ];
-            if ($this->currentModel->editAnnouncement($data)) {
-                echo json_encode($data);
-            } else {
-                echo json_encode(['success' => false]);
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    $data = [
+                        'teacher_id' => $id,
+                        'ann_id' => $annID,
+                        'ann_title' => trim($_POST['annTitle']),
+                        'ann_body' => trim($_POST['annBody']),
+                        'success' => true
+                    ];
+                    if ($this->currentModel->editAnnouncement($data)) {
+                        echo json_encode($data);
+                    } else {
+                        echo json_encode(['success' => false]);
+                    }
+                } else{
+                    echo json_encode(['error'=>'invalid input type']);
+                }
+            }else{
+                echo json_encode(['error'=>'Invalid token']);
             }
+        } else {
+            echo json_encode(['error' => "undefined token"]);
         }
     }
 
