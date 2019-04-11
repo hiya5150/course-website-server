@@ -18,7 +18,7 @@ class Announcements extends Controller {
                 }
             } else {
                 echo json_encode(['success' => false, 'error' => "invalid token"]);
-            }
+           }
         } else {
             echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
