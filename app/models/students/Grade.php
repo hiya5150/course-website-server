@@ -30,7 +30,4 @@ class Grade
         $results = $this->db->resultSet();
         return $results;
     }
-
-
-
 }

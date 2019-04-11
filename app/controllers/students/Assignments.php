@@ -10,23 +10,29 @@ class Assignments extends Controller
     }
 
 
-    public function submitAssignment($teacherID, $studentID, $asnID)
+    public function submitAssignment($teacherID, $asnID)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = [
-                'teacher_id' => $teacherID,
-                'student_id' => $studentID,
-                'asn_id' => $asnID,
-                'submission' => trim($_POST['submission']),
-                'success' => true
-            ];
-
-            if ($this->currentModel->submit($data)) {
-                echo json_encode($data);
+        if(isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    $data = [
+                        'teacher_id' => $teacherID,
+                        'student_id' => $id,
+                        'asn_id' => $asnID,
+                        'submission' => trim($_POST['submission']),
+                    ];
+                    if ($this->currentModel->submit($data)) {
+                        echo json_encode(['success' => true]);
+                    } else {
+                        echo json_encode(['success' => false]);
+                    }
+                }
             } else {
-                echo json_encode(['success' => false]);
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
+        } else {
+            echo json_encode(['success' => false, 'error' => "token undefined"]);
         }
     }
 
@@ -35,11 +41,7 @@ class Assignments extends Controller
         $assignments = $this->currentModel->getAssignments();
 
         if ($assignments) {
-            $data = [
-                'assignments' => $assignments,
-                'success'=>true
-            ];
-            echo json_encode($data);
+            echo json_encode($assignments);
         }
         else{
             echo json_encode(['success'=>false]);
@@ -51,11 +53,7 @@ class Assignments extends Controller
             'asn_id'=>$asnID
         ];
         if($assignment = $this->currentModel->getOneAssignment($data)){
-            $data = [
-                'assignment'=>$assignment,
-                'success'=>true
-            ];
-            echo json_encode($data);
+            echo json_encode($assignment);
         }
         else{
             echo json_encode(['success'=>false]);
