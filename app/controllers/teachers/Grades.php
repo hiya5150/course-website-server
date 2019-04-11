@@ -6,74 +6,108 @@ class Grades extends Controller {
         $this->currentModel = $this->model('teachers', 'grade');
     }
 
-    public function viewOneSubmissionOneStudent($studentID, $asnID){
-        $data = [
-            'student_id'=>$studentID,
-            'asn_id'=>$asnID
-        ];
-        $submission = $this->currentModel->viewOneSubmissionOneStudent($data);
-        if($submission){
-            $data = [
-                'submission' => $submission,
-                'success'=>true
-            ];
-            echo json_encode($data);
-        }
-        else{
-            echo json_encode(['success'=>false]);
-        }
-    }
-
-    public function viewAllSubmissionsOneStudent($studentID){
-        $data = [
-            'student_id'=>$studentID
-        ];
-        $submission = $this->currentModel->viewAllSubmissionsOneStudent($data);
-        if($submission){
-            $data = [
-                'submission'=> $submission,
-                'success'=>true
-            ];
-            echo json_encode($data);
-        }
-        else{
-            echo json_encode(['success'=>false]);
-        }
-    }
-
-    public function viewAllSubmissionsOneAssignment($asnID){
-        $data = [
-            'asn_id'=>$asnID
-        ];
-        $submission = $this->currentModel->viewAllSubmissionsOneAssignment($data);
-        if($submission){
-            $data = [
-                'submission'=>$submission,
-                'success'=>true
-            ];
-            echo json_encode($data);
-        }
-        else{
-            echo json_encode(['success'=>false]);
-        }
-    }
-
-    public function editGrade($teacherID, $studentID, $asnID)
+    public function viewOneSubmissionOneStudent($studentID, $asnID)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = [
-                'teacher_id' => $teacherID,
-                'student_id' => $studentID,
-                'asn_id' => $asnID,
-                'grade' => trim($_POST['grade']),
-                'success' => true
-            ];
-            if ($this->currentModel->editGrade($data)) {
-                echo json_encode($data);
-            } else {
-                echo json_encode(['success' => false]);
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                $data = [
+                    'student_id' => $studentID,
+                    'asn_id' => $asnID
+                ];
+                $submission = $this->currentModel->viewOneSubmissionOneStudent($data);
+                if ($submission) {
+                    $data = [
+                        'submission' => $submission,
+                        'success' => true
+                    ];
+                    echo json_encode($data);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else{
+                echo json_encode(['error'=>'Invalid token']);
             }
+        } else {
+            echo json_encode(['error' => "undefined token"]);
+        }
+    }
+
+    public function viewAllSubmissionsOneStudent($studentID)
+    {
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                $data = [
+                    'student_id' => $studentID
+                ];
+                $submission = $this->currentModel->viewAllSubmissionsOneStudent($data);
+                if ($submission) {
+                    $data = [
+                        'submission' => $submission,
+                        'success' => true
+                    ];
+                    echo json_encode($data);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else{
+                echo json_encode(['error'=>'Invalid token']);
+            }
+        } else {
+            echo json_encode(['error' => "undefined token"]);
+        }
+    }
+
+    public function viewAllSubmissionsOneAssignment($asnID)
+    {
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                $data = [
+                    'asn_id' => $asnID
+                ];
+                $submission = $this->currentModel->viewAllSubmissionsOneAssignment($data);
+                if ($submission) {
+                    $data = [
+                        'submission' => $submission,
+                        'success' => true
+                    ];
+                    echo json_encode($data);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else{
+                echo json_encode(['error'=>'Invalid token']);
+            }
+        } else {
+            echo json_encode(['error' => "undefined token"]);
+        }
+    }
+
+    public function editGrade($studentID, $asnID)
+    {
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    $data = [
+                        'teacher_id' => $id,
+                        'student_id' => $studentID,
+                        'asn_id' => $asnID,
+                        'grade' => trim($_POST['grade']),
+                        'success' => true
+                    ];
+                    if ($this->currentModel->editGrade($data)) {
+                        echo json_encode($data);
+                    } else {
+                        echo json_encode(['success' => false]);
+                    }
+                } else {
+                    echo json_encode(['error' => 'Invalid input type']);
+                }
+            } else{
+                echo json_encode(['error'=>'Invalid token']);
+            }
+        } else {
+            echo json_encode(['error' => "undefined token"]);
         }
     }
 }
