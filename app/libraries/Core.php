@@ -21,7 +21,7 @@
         $this->currentDirectory = $url[0];
         // If exists, set as controller
         $this->currentController = ucwords($url[1]);
-        // Unset 0 Index
+        // Unset 0 Main
         unset($url[0]);
         unset($url[1]);
       }

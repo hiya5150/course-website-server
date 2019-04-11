@@ -23,6 +23,7 @@ class Controller {
             // checks if token matches to ip address
             // returns student or teachers id if verified else returns false
             if($res->token === $token && $res->ip === $ip){
+                $this->cleanTokens();
                 return ($res->student_id > 0) ? $res->student_id : $res->teacher_id;
             }else{
                 return false;
@@ -31,5 +32,11 @@ class Controller {
             return false;
         }
     }
-
+    // cleans expired tokens
+    private function cleanTokens(){
+        $db = new Database();
+        $db->query('DELETE FROM auth WHERE  expiry < now()');
+        $db->execute();
+        unset($db);
+    }
 }

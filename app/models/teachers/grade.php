@@ -55,6 +55,4 @@ class grade {
             return false;
         }
     }
-
-
 }
