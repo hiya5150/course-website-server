@@ -16,19 +16,15 @@ class Grades extends Controller {
                 ];
                 $submission = $this->currentModel->viewOneSubmissionOneStudent($data);
                 if ($submission) {
-                    $data = [
-                        'submission' => $submission,
-                        'success' => true
-                    ];
-                    echo json_encode($data);
+                    echo json_encode($submission);
                 } else {
                     echo json_encode(['success' => false]);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -41,19 +37,15 @@ class Grades extends Controller {
                 ];
                 $submission = $this->currentModel->viewAllSubmissionsOneStudent($data);
                 if ($submission) {
-                    $data = [
-                        'submission' => $submission,
-                        'success' => true
-                    ];
-                    echo json_encode($data);
+                    echo json_encode($submission);
                 } else {
                     echo json_encode(['success' => false]);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -66,19 +58,15 @@ class Grades extends Controller {
                 ];
                 $submission = $this->currentModel->viewAllSubmissionsOneAssignment($data);
                 if ($submission) {
-                    $data = [
-                        'submission' => $submission,
-                        'success' => true
-                    ];
-                    echo json_encode($data);
+                    echo json_encode($submission);
                 } else {
                     echo json_encode(['success' => false]);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -92,22 +80,21 @@ class Grades extends Controller {
                         'teacher_id' => $id,
                         'student_id' => $studentID,
                         'asn_id' => $asnID,
-                        'grade' => trim($_POST['grade']),
-                        'success' => true
+                        'grade' => trim($_POST['grade'])
                     ];
-                    if ($this->currentModel->editGrade($data)) {
-                        echo json_encode($data);
+                    if ($result = $this->currentModel->editGrade($data)) {
+                        $this->viewOneSubmissionOneStudent($data['student_id'], $data['asn_id']);
                     } else {
                         echo json_encode(['success' => false]);
                     }
                 } else {
                     echo json_encode(['error' => 'Invalid input type']);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 }

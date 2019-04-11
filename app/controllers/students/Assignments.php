@@ -1,5 +1,7 @@
 <?php
-//This is the assignments controller, this page will recieve the input from the front end in form of post and/or parameters and if there are no errors/everything was filled out correctly then it will send the information to the assignments model, to be processed with the database, it will then return the either the data or success/failure, which will be converted to JSON and sent back to front end
+//This is the assignments controller, this page will receive the input from the front end in form of post and/or parameters
+// and if there are no errors/everything was filled out correctly then it will send the information to the assignments model,
+// to be processed with the database, it will then return the either the data or success/failure, which will be converted to JSON and sent back to front end
 
 class Assignments extends Controller
 {
@@ -38,25 +40,42 @@ class Assignments extends Controller
 
     public function viewAssignments()
     {
-        $assignments = $this->currentModel->getAssignments();
+        if(isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])){
 
-        if ($assignments) {
-            echo json_encode($assignments);
-        }
-        else{
-            echo json_encode(['success'=>false]);
+                $assignments = $this->currentModel->getAssignments();
+
+                if ($assignments) {
+                    echo json_encode($assignments);
+                }
+                else{
+                    echo json_encode(['success'=>false]);
+                }
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
     public function viewOneAssignment($asnID){
-        $data = [
-            'asn_id'=>$asnID
-        ];
-        if($assignment = $this->currentModel->getOneAssignment($data)){
-            echo json_encode($assignment);
-        }
-        else{
-            echo json_encode(['success'=>false]);
+        if(isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])){
+                $data = [
+                    'asn_id'=>$asnID
+                ];
+                if($assignment = $this->currentModel->getOneAssignment($data)){
+                    echo json_encode($assignment);
+                }
+                else{
+                    echo json_encode(['success'=>false]);
+                }
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 }
