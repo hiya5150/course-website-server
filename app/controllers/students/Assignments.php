@@ -21,16 +21,18 @@ class Assignments extends Controller
                         'student_id' => $id,
                         'asn_id' => $asnID,
                         'submission' => trim($_POST['submission']),
-                        'success' => true
                     ];
-
                     if ($this->currentModel->submit($data)) {
-                        echo json_encode($data);
+                        echo json_encode(['success' => true]);
                     } else {
                         echo json_encode(['success' => false]);
                     }
                 }
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
+        } else {
+            echo json_encode(['success' => false, 'error' => "token undefined"]);
         }
     }
 
@@ -39,11 +41,7 @@ class Assignments extends Controller
         $assignments = $this->currentModel->getAssignments();
 
         if ($assignments) {
-            $data = [
-                'assignments' => $assignments,
-                'success'=>true
-            ];
-            echo json_encode($data);
+            echo json_encode($assignments);
         }
         else{
             echo json_encode(['success'=>false]);
@@ -55,11 +53,7 @@ class Assignments extends Controller
             'asn_id'=>$asnID
         ];
         if($assignment = $this->currentModel->getOneAssignment($data)){
-            $data = [
-                'assignment'=>$assignment,
-                'success'=>true
-            ];
-            echo json_encode($data);
+            echo json_encode($assignment);
         }
         else{
             echo json_encode(['success'=>false]);
