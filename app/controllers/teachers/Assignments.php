@@ -1,5 +1,7 @@
 <?php
-//This is the assignments controller, this page will recieve the input from the front end in form of post and/or parameters and if there are no errors/everything was filled out correctly then it will send the information to the aassignments model, to be processed with the database, it will then return the either the data or success/failure, which will be converted to JSON and sent back to front end
+//This is the assignments controller, this page will receive the input from the front end in form of post and/or parameters
+// and if there are no errors/everything was filled out correctly then it will send the information to the aassignments model,
+// to be processed with the database, it will then return the either the data or success/failure, which will be converted to JSON and sent back to front end
 class Assignments extends Controller {
     private  $currentModel;
     public function __construct(){
@@ -12,20 +14,15 @@ class Assignments extends Controller {
             if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
                 $assignments = $this->currentModel->viewAssignments();
                 if ($assignments) {
-                    $data = [
-                        'assignments' => $assignments,
-                        'success' => true
-
-                    ];
-                    echo json_encode($data);
+                    echo json_encode($assignments);
                 } else {
                     echo json_encode(['success' => false]);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -40,23 +37,21 @@ class Assignments extends Controller {
                         'asn_title' => trim($_POST['asnTitle']),
                         'asn_body' => trim($_POST['asnBody']),
                         'asn_due_date' => trim($_POST['asnDueDate']),
-                        'asn_grade' => trim($_POST['asnGrade']),
-                        'success' => true
+                        'asn_grade' => trim($_POST['asnGrade'])
                     ];
-
                     if ($this->currentModel->createAssignment($data)) {
-                        echo json_encode($data);
+                        $this->viewAssignments();
                     } else {
                         echo json_encode(['success' => false]);
                     }
                 } else {
                     echo json_encode(['error:' => 'invalid input type']);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -69,17 +64,16 @@ class Assignments extends Controller {
                     'teacher_id' => $id,
                     'asn_id' => $asnID
                 ];
-
                 if ($this->currentModel->deleteAssignment($data)) {
                     echo json_encode(['success' => true]);
                 } else {
                     echo json_encode(['success' => false]);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -96,21 +90,20 @@ class Assignments extends Controller {
                         'asn_body' => trim($_POST['asnBody']),
                         'asn_due_date' => trim($_POST['asnDueDate']),
                         'asn_grade' => trim($_POST['asnGrade']),
-                        'success' => true
                     ];
                     if ($this->currentModel->editAssignment($data)) {
-                        echo json_encode($data);
+                        $this->viewAssignments();
                     } else {
                         echo json_encode(['success' => false]);
                     }
                 } else {
                     echo json_encode(['error' => 'invalid input type']);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 }

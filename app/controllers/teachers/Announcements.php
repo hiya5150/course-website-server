@@ -12,19 +12,15 @@ class Announcements extends Controller {
             if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
                 $announcements = $this->currentModel->viewAnnouncements();
                 if ($announcements) {
-                    $data = [
-                        'announcements' => $announcements,
-                        'success' => true
-                    ];
-                    echo json_encode($data);
+                    echo json_encode($announcements);
                 } else {
                     echo json_encode(['success' => false]);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -39,21 +35,20 @@ class Announcements extends Controller {
                         'teacher_id' => $id,
                         'ann_title' => trim($_POST['annTitle']),
                         'ann_body' => trim($_POST['annBody']),
-                        'success' => true
                     ];
                     if ($this->currentModel->createAnnouncement($data)) {
-                        echo json_encode($data);
+                        $this->viewAnnouncements();
                     } else {
                         echo json_encode(['success' => false]);
                     }
                 } else{
                     echo json_encode(['error'=>'Invalid input type']);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -71,11 +66,11 @@ class Announcements extends Controller {
                 } else {
                     echo json_encode(['success' => false]);
                 }
-            } else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 
@@ -90,21 +85,20 @@ class Announcements extends Controller {
                         'ann_id' => $annID,
                         'ann_title' => trim($_POST['annTitle']),
                         'ann_body' => trim($_POST['annBody']),
-                        'success' => true
                     ];
                     if ($this->currentModel->editAnnouncement($data)) {
-                        echo json_encode($data);
+                        $this->viewAnnouncements();
                     } else {
                         echo json_encode(['success' => false]);
                     }
                 } else{
                     echo json_encode(['error'=>'invalid input type']);
                 }
-            }else{
-                echo json_encode(['error'=>'Invalid token']);
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['error' => "undefined token"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 }

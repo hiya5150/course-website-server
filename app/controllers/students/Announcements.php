@@ -10,10 +10,7 @@ class Announcements extends Controller{
     {
         $announcements = $this->currentModel->viewAnnouncements();
         if($announcements) {
-            $data = [
-                'announcements'=>$announcements
-            ];
-            echo json_encode($data);
+            echo json_encode($announcements);
         } else{
             echo json_encode(['success'=>false]);
         }

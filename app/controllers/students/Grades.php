@@ -26,7 +26,7 @@ class Grades extends Controller
                 echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['success' => false, 'error' => "token undefined"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 //uses getGradeByAssignment to get one specific grade for the student
@@ -48,7 +48,7 @@ class Grades extends Controller
                 echo json_encode(['success' => false, 'error' => "invalid token"]);
             }
         } else {
-            echo json_encode(['success' => false, 'error' => "token undefined"]);
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
 }
