@@ -21,4 +21,22 @@ class Home extends Controller
     public function notFound(){
         echo json_encode(["error" => '404 - not found']);
     }
+
+    public function verifyTeacherToken()
+    {
+        if(parent::verifyTokenUserType($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR']) === 'teacher'){
+            echo json_encode(true);
+        }else{
+            echo json_encode(false);
+        }
+    }
+
+    public function verifyStudentToken()
+    {
+        if(parent::verifyTokenUserType($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR']) === 'student'){
+            echo json_encode(true);
+        }else{
+            echo json_encode(false);
+        }
+    }
 }
