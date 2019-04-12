@@ -30,7 +30,7 @@
       require_once '../app/controllers/'. $this->currentDirectory .'/'. $this->currentController . '.php';
 
       // Instantiate controller class
-      $this->currentController = new $this->currentController;
+        $this->currentController = new $this->currentController;
 
       // Check for second part of url
       if(isset($url[2])){
@@ -43,6 +43,7 @@
             $this->currentDirectory = 'main';
             $this->currentController = 'Home';
             require_once '../app/controllers/'. $this->currentDirectory .'/'. $this->currentController . '.php';
+            $this->currentController = new $this->currentController;
         }
       }
 

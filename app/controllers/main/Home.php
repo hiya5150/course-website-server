@@ -8,8 +8,9 @@ class Home extends Controller
     }
     public function loadAnnouncements()
     {
-        $announcements = $this->currentModel->viewAnnouncements();
-        if ($announcements) {
+
+        if ($announcements = $this->currentModel->viewAnnouncements()) {
+
             echo json_encode($announcements);
         }
         else{

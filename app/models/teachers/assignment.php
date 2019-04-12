@@ -14,6 +14,12 @@ class assignment {
         return $results;
     }
 
+    public function viewOneAssignment($data){
+        $this->db->query('SELECT assignments.*, teachers.teacher_name FROM assignments INNER JOIN teachers ON teachers.teacher_id = assignments.teacher_id');
+        $result = $this->db->single();
+        return $result;
+    }
+
     public function createAssignment($data) {
         $this->db->query('INSERT INTO assignments (asn_title, asn_body, asn_due_date, asn_grade, teacher_id) VALUES (:asn_title, :asn_body, :asn_due_date, :asn_grade, :teacher_id)');
         $this->db->bind(':asn_title', $data['asn_title']);
