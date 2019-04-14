@@ -70,6 +70,26 @@ class Grades extends Controller {
         }
     }
 
+    public function rowCount($asnID) {
+        if(isset($GLOBALS['headers']['Authorization'])){
+            if($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])){
+                $data = [
+                    'asn_id' => $asnID
+                ];
+                if($rowCount = $this->currentModel->rowCount($data)){
+                    echo json_encode(['count'=>$rowCount]);
+                }
+                else{
+                    echo json_encode(['success'=>false]);
+                }
+            } else{
+                echo json_encode(['error'=>'Invalid input type']);
+            }
+        } else{
+            echo json_encode(['success'=>false, 'error'=>'undefined token']);
+        }
+    }
+
     public function editGrade($studentID, $asnID)
     {
         if (isset($GLOBALS['headers']['Authorization'])) {
