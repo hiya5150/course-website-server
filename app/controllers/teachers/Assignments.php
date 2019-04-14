@@ -25,6 +25,30 @@ class Assignments extends Controller {
             echo json_encode(['success' => false, 'error' => "undefined token"]);
         }
     }
+
+    public function viewPrivateAssignments()
+    {
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                $data = [
+                    'teacher_id' => $id
+                ];
+                $assignments= $this->currentModel->viewPrivateAssignments($data);
+
+                if ($assignments) {
+                    echo json_encode($assignments);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
+        }
+    }
+
+
     public function viewOneAssignment($asnID){
         if(isset($GLOBALS['headers']['Authorization'])) {
             if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])){

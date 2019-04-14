@@ -50,8 +50,8 @@ class grade {
     public function editGrade($data){
         $this->db->query('UPDATE grades SET grade = :grade WHERE teacher_id = :teacher:id && student_id= :student_id && asn_id = :asn_id');
         $this->db->bind(':teacher_id', $data['teacher_id']);
-        $this->db->bind(':asn_id', $data['asn_id']);
         $this->db->bind(':student_id', $data['student_id']);
+        $this->db->bind(':asn_id', $data['asn_id']);
         $this->db->bind(':grade', $data['grade']);
 
         if($this->db->execute()){
