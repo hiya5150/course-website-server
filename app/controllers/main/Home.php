@@ -38,7 +38,7 @@ class Home extends Controller
     public function verifyStudentToken()
     {
         if(isset($GLOBALS['headers']['Authorization'])) {
-            if(parent::verifyTokenUserType($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR']) === 'teacher'){
+            if(parent::verifyTokenUserType($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR']) === 'student'){
                 echo json_encode(true);
             }else{
                 echo json_encode(false);
