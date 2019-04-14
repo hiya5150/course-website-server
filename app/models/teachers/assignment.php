@@ -15,7 +15,8 @@ class assignment {
     }
 
     public function viewOneAssignment($data){
-        $this->db->query('SELECT assignments.*, teachers.teacher_name FROM assignments INNER JOIN teachers ON teachers.teacher_id = assignments.teacher_id');
+        $this->db->query('SELECT assignments.*, teachers.teacher_name FROM assignments INNER JOIN teachers ON teachers.teacher_id = assignments.teacher_id WHERE asn_id = :asn_id');
+        $this->db->bind(':asn_id', $data['asn_id']);
         $result = $this->db->single();
         return $result;
     }
