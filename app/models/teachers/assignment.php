@@ -14,6 +14,13 @@ class assignment {
         return $results;
     }
 
+    public function viewPrivateAssignments($data){
+        $this->db->query('SELECT assignments.*, teachers.teacher_name FROM assignments INNER JOIN teachers ON teachers.teacher_id = assignments.teacher_id WHERE assignments.teacher_id = :teacher_id ORDER BY asn_date_created DESC');
+        $this->db->bind(':teacher_id', $data['teacher_id']);
+        $results = $this->db->resultSet();
+
+        return $results;
+    }
     public function viewOneAssignment($data){
         $this->db->query('SELECT assignments.*, teachers.teacher_name FROM assignments INNER JOIN teachers ON teachers.teacher_id = assignments.teacher_id WHERE asn_id = :asn_id');
         $this->db->bind(':asn_id', $data['asn_id']);

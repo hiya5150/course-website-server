@@ -103,7 +103,8 @@ class Grades extends Controller {
                         'grade' => trim($_POST['grade'])
                     ];
                     if ($result = $this->currentModel->editGrade($data)) {
-                        $this->viewOneSubmissionOneStudent($data['student_id'], $data['asn_id']);
+//                        $this->viewOneSubmissionOneStudent($data['student_id'], $data['asn_id']);
+                        echo json_encode(['success'=>true]);
                     } else {
                         echo json_encode(['success' => false]);
                     }

@@ -6,9 +6,16 @@ class announcement {
     public function __construct(){
         $this->db = new Database;
     }
-
     public function viewAnnouncements(){
-        $this->db->query('SELECT announcements.*, teachers.teacher_name FROM announcements INNER JOIN teachers on teachers.teacher_id = announcements.teacher_id ORDER BY announcements.ann_date_created DESC');
+        $this->db->query('SELECT announcements.*, teachers.teacher_name FROM announcements INNER JOIN teachers on teachers.teacher_id = announcements.teacher_id  ORDER BY announcements.ann_date_created DESC');
+        $results = $this->db->resultSet();
+
+        return $results;
+    }
+
+    public function viewPrivateAnnouncements($data){
+        $this->db->query('SELECT announcements.*, teachers.teacher_name FROM announcements INNER JOIN teachers on teachers.teacher_id = announcements.teacher_id WHERE announcements.teacher_id = :teacher_id ORDER BY announcements.ann_date_created DESC');
+        $this->db->bind(':teacher_id', $data['teacher_id']);
         $results = $this->db->resultSet();
 
         return $results;

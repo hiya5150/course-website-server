@@ -24,6 +24,28 @@ class Announcements extends Controller {
         }
     }
 
+    public function viewPrivateAnnouncements()
+    {
+        if (isset($GLOBALS['headers']['Authorization'])) {
+            if ($id = $this->verifyToken($GLOBALS['headers']['Authorization'], $_SERVER['REMOTE_ADDR'])) {
+                $data = [
+                    'teacher_id' => $id
+                ];
+                $announcements = $this->currentModel->viewPrivateAnnouncements($data);
+
+                if ($announcements) {
+                    echo json_encode($announcements);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else {
+                echo json_encode(['success' => false, 'error' => "invalid token"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'error' => "undefined token"]);
+        }
+    }
+
     public function createAnnouncement()
     {
         if(isset($GLOBALS['headers']['Authorization'])){
