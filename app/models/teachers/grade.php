@@ -40,6 +40,12 @@ class grade {
 
         return $results;
     }
+    public function rowCount($data) {
+        $this->db->query('SELECT * FROM grades WHERE asn_id = :asn_id');
+        $this->db->bind(':asn_id', $data['asn_id']);
+
+        return $this->rowCount($data);
+    }
 
     public function editGrade($data){
         $this->db->query('UPDATE grades SET grade = :grade WHERE teacher_id = :teacher:id && student_id= :student_id && asn_id = :asn_id');
