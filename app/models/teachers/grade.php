@@ -44,7 +44,7 @@ class grade {
         $this->db->query('SELECT * FROM grades WHERE asn_id = :asn_id');
         $this->db->bind(':asn_id', $data['asn_id']);
 
-        return $this->rowCount($data);
+        return $this->rowCount();
     }
 
     public function editGrade($data){
