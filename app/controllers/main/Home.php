@@ -7,14 +7,14 @@ class Home extends Controller
     private $currentModel;
     public function __construct()
     {
-        $this->currentModel = $this->model('main', 'Main');
+        $this->currentModel = $this->model('main', 'Main'); //defines where this model is
     }
 
     // this function returns all the announcements from the database, since anyone can see the announcements page it doesnt check for a token first
     public function loadAnnouncements()
     {
 
-        if ($announcements = $this->currentModel->viewAnnouncements()) {
+        if ($announcements = $this->currentModel->viewAnnouncements()) { //calling db func to check if there's data
 
             echo json_encode($announcements);
         }
