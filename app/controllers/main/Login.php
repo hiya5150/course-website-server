@@ -15,6 +15,7 @@ class Login extends Controller
             $data = [
               'username' => trim($_POST['username']),
               'password' => trim($_POST['password'])
+                ////trim re spaces
             ];
             // verifies username and password returns user details or false
             if ($user = $this->currentModel->loginTeacher($data['username'], $data['password'])){
