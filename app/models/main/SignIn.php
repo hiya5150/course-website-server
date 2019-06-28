@@ -51,7 +51,7 @@ class SignIn
     public function setToken($id, $type, $ip){
         try{
             // try creating random token else throw error
-            if($token = bin2hex(random_bytes(32))){
+            if($token = bin2hex(random_bytes(32))){ //hashing password
                 $this->db->query('INSERT INTO auth(token, ip, expiry, student_id, teacher_id) VALUES (:token, :ip, NOW() + INTERVAL 1 HOUR, :studentID, :teacherID)');
                 $this->db->bind(':token', $token);
                 $this->db->bind(':ip', $ip);
